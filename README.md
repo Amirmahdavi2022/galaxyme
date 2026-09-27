@@ -7,7 +7,7 @@ The mining is real. Your phone runs double SHA-256 over a 128 byte block header,
 ## How mining works
 
 - You mine in 5 minute sessions, then rest for an hour. You can skip the rest with Telegram Stars (50 for 30 minutes, 100 for the full hour), or invite 3 friends for a free reset.
-- Your phone sends shares, which are hashes below your personal share target. That target adjusts so a phone sends one about every 20 seconds, fast or slow.
+- Your phone sends shares, which are hashes below your personal share target. That target adjusts so a phone sends one about every 30 seconds, fast or slow.
 - When someone's hash also lands below the block target, the block closes. Its Stardust gets split by work between everyone who sent shares for it, and the finder gets 10% on top plus the star.
 - The network aims for a block every 4 minutes of active mining and retargets from the measured hashrate.
 - Mining needs membership in the project's Telegram channel.

@@ -335,7 +335,7 @@ resize();renderRig();requestAnimationFrame(frame);requestAnimationFrame(sheetLoo
   else if(state()==='mining')startSession();   // resume a session that is still running
 })();
 setInterval(()=>{renderRig();if(hashing&&ME&&serverNow()>ME.sessionEnd+2)endSession();},1000);
-setInterval(()=>{if(!document.hidden)syncChain(true);},20000);
-setInterval(()=>{if(!document.hidden&&(view==='net'||hashing))refreshNet();},12000);
-setInterval(()=>{if(!document.hidden)refreshMe();},60000);
+setInterval(()=>{if(!document.hidden)syncChain(true);},60000);   // new blocks also arrive through share replies
+setInterval(()=>{if(!document.hidden&&view==='net')refreshNet();},15000);
+setInterval(()=>{if(!document.hidden&&!hashing)refreshMe();},120000);
 })();

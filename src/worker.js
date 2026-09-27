@@ -29,12 +29,13 @@ export async function checkInitData(initData, botToken, maxAge = 86400) {
 }
 
 function displayName(u) {
-  const clean = s => (s || '').replace(/[<>&"]/g, '').trim();
+  // work in whole characters (code points) so fancy fonts and emoji are never cut in half
+  const clean = s => Array.from((s || '').normalize('NFC').replace(/[<>&"\u0000-\u001f\u200b-\u200f\u202a-\u202e\ufffd]/g, '')).join('').trim();
   let n = clean(u.first_name);
-  const l = clean(u.last_name);
-  if (l) n += ' ' + l[0] + '.';
+  const l = Array.from(clean(u.last_name));
+  if (l.length) n += ' ' + l[0] + '.';
   if (!n) n = u.username ? clean(u.username) : 'Miner ' + String(u.id).slice(-4);
-  return n.slice(0, 24);
+  return Array.from(n).slice(0, 22).join('').trim();
 }
 
 async function tg(env, method, body) {

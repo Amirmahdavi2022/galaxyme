@@ -9,7 +9,7 @@ export const RULES = {
   COOLDOWN_S: 3600,        // then 1 hour of rest
   BLOCK_TARGET_S: 240,     // the network aims for one block every 4 minutes of active mining
   E_MIN: 2 ** 27,          // floor for block difficulty (~5 min for one 450 kH/s phone)
-  SHARE_TARGET_S: 20,      // each phone sends a share about every 20 s
+  SHARE_TARGET_S: 30,      // each phone sends a share about every 30 s (keeps request count low on the free plan)
   ES_MIN: 2 ** 18,
   ES_INIT: 2 ** 22,
   FINDER_CUT: 0.1,         // 10% to whoever finds the block, 90% split by work
