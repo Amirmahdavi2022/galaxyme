@@ -1,0 +1,49 @@
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Test the hashing and chain code
+        run: node tools/test-core.js
+
+      - name: Make sure public/index.html is up to date
+        run: |
+          python3 app/build.py
+          git diff --exit-code public/index.html
+
+      - name: Pick a working Cloudflare token
+        env:
+          CF_TOKENS: ${{ secrets.CF_TOKENS }}
+        run: node tools/pick-token.mjs
+
+      - name: Deploy the Worker
+        run: npx --yes wrangler@4 deploy
+
+      - name: Give the Worker the bot token
+        env:
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+        run: printf '%s' "$TG_BOT_TOKEN" | npx --yes wrangler@4 secret put BOT_TOKEN
+
+      - name: Connect the bot
+        env:
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+        run: node tools/setup-bot.mjs

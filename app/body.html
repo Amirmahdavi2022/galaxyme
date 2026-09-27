@@ -1,0 +1,62 @@
+<div id="app">
+ <header class="top">
+  <div class="brand"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.5l2.2 6.6 6.8.4-5.3 4.2 1.8 6.8L12 16.7l-5.5 3.8 1.8-6.8L3 9.5l6.8-.4L12 2.5z" fill="#FFB547"/><path d="M12 7.2l1 3 3.1.2-2.4 1.9.8 3.1L12 13.7l-2.5 1.7.8-3.1-2.4-1.9 3.1-.2 1-3z" fill="#FFF3D6"/></svg>galaxyme</div>
+  <span class="net" title="Local test network on this device">Testnet</span>
+  <div class="bal" id="bal" aria-label="Stardust balance"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.5c.6 5.3 3.2 8.4 9.5 10.5-6.3 2.1-8.9 5.2-9.5 10.5-.6-5.3-3.2-8.4-9.5-10.5C8.8 9.9 11.4 6.8 12 1.5z"/></svg><span class="num" id="balv">0</span></div>
+ </header>
+
+ <main class="views">
+  <section class="view" id="v-galaxy" aria-label="Galaxy">
+   <canvas id="sky" aria-label="Galaxy map. Drag to pan, pinch to zoom, tap a star to open it."></canvas>
+   <p class="hint" id="hint">Tap the core to start mining. <b>Every block you find becomes a star.</b></p>
+   <div class="rig">
+    <div class="stat"><span class="k">Hashrate</span><span class="v" id="rate">—</span><span class="s" id="blockno">Block #1</span></div>
+    <button class="core" id="core" aria-pressed="false" aria-label="Start mining"><span class="ring" id="ring"></span><span class="orb"><svg id="coreIcon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5L8 5.5z"/></svg></span></button>
+    <div class="stat r"><span class="k">Shares</span><span class="v" id="shares">0</span><span class="s" id="eta">~45 s per star</span></div>
+   </div>
+  </section>
+
+  <section class="view" id="v-stars" hidden aria-label="Your stars">
+   <div class="scroll">
+    <div class="h"><h2>Your stars</h2><span class="c num" id="starCount">0 found</span></div>
+    <div class="chips" id="filters" role="group" aria-label="Filter by class"></div>
+    <div class="grid" id="grid"></div>
+   </div>
+  </section>
+
+  <section class="view" id="v-chain" hidden aria-label="Chain">
+   <div class="scroll">
+    <div class="h"><h2>Chain</h2><span class="c" id="addr"></span></div>
+    <div class="kpis">
+     <div class="kpi"><div class="k">Height</div><div class="v" id="k-height">0</div></div>
+     <div class="kpi"><div class="k">Difficulty</div><div class="v" id="k-diff">—</div></div>
+     <div class="kpi"><div class="k">Avg block time</div><div class="v" id="k-time">—</div></div>
+     <div class="kpi"><div class="k">Era · reward</div><div class="v" id="k-era">I · 1,000</div></div>
+    </div>
+    <button class="verify" id="verify"><span><span class="t">Verify the whole chain</span><br><span class="s" id="verifyS">Re-hash every block on this phone and check every link</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/></svg></button>
+    <div class="blocks" id="blocks"></div>
+   </div>
+  </section>
+
+  <div class="toast" id="toast" role="status"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.5c.6 5.3 3.2 8.4 9.5 10.5-6.3 2.1-8.9 5.2-9.5 10.5-.6-5.3-3.2-8.4-9.5-10.5C8.8 9.9 11.4 6.8 12 1.5z"/></svg><span id="toastT"></span></div>
+ </main>
+
+ <nav class="nav" aria-label="Sections">
+  <button data-v="galaxy" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 12c0-3 2.5-5 5.5-4.5M12 12c3 0 5 2.5 4.5 5.5M12 12c0 3-2.5 5-5.5 4.5M12 12c-3 0-5-2.5-4.5-5.5"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg>Galaxy</button>
+  <button data-v="stars"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg>Stars</button>
+  <button data-v="chain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></svg>Chain</button>
+ </nav>
+
+ <div class="scrim" id="scrim"></div>
+ <section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sname" inert>
+  <div class="grab" id="grab"></div>
+  <div class="body" id="sbody">
+   <div class="eyebrow" id="seyebrow"></div>
+   <canvas class="view3d" id="scene"></canvas>
+   <h3 class="sname" id="sname"></h3>
+   <div class="smeta" id="smeta"></div>
+   <div class="facts" id="facts"></div>
+   <div class="hash" id="shash"></div>
+  </div>
+ </section>
+</div>

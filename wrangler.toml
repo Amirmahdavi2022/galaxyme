@@ -1,0 +1,8 @@
+name = "galaxyme"
+main = "src/worker.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
