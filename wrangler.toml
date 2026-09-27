@@ -3,6 +3,17 @@ main = "src/worker.js"
 compatibility_date = "2025-09-01"
 workers_dev = true
 
+[vars]
+CHANNEL = "@parsv2r"
+
 [assets]
 directory = "./public"
 binding = "ASSETS"
+
+[[durable_objects.bindings]]
+name = "CHAIN"
+class_name = "GalaxyChain"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["GalaxyChain"]

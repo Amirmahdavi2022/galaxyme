@@ -20,14 +20,22 @@ const call = async (method, body) => {
 for (let i = 0; i < 10; i++) { const ok = await fetch(origin + '/health').then(r => r.ok).catch(() => false); if (ok) break; await new Promise(r => setTimeout(r, 3000)); }
 
 const results = [
-  await call('setWebhook', { url: origin + '/tg', secret_token: secret, allowed_updates: ['message'], drop_pending_updates: true }),
+  await call('setWebhook', { url: origin + '/tg', secret_token: secret, allowed_updates: ['message', 'pre_checkout_query'], drop_pending_updates: true }),
   await call('setChatMenuButton', { menu_button: { type: 'web_app', text: 'Open Galaxyme', web_app: { url: origin + '/' } } }),
-  await call('setMyCommands', { commands: [{ command: 'start', description: 'Open Galaxyme' }, { command: 'help', description: 'How mining and stars work' }] }),
+  await call('setMyCommands', { commands: [{ command: 'start', description: 'Open Galaxyme' }, { command: 'help', description: 'How mining, sessions and rewards work' }] }),
   await call('setMyShortDescription', { short_description: 'Mine blocks on your phone. Every block you find becomes a star.' }),
-  await call('setMyDescription', { description: 'Galaxyme is a proof-of-work chain you mine inside Telegram. Every block becomes a unique star, and its rarity comes straight from the block hash. Black holes are about 1 in 1,024.' }),
+  await call('setMyDescription', { description: 'Galaxyme is one shared proof-of-work chain everyone mines from Telegram. Every block becomes a star in the same galaxy, its rarity comes straight from the block hash, and the Stardust is split between everyone who mined it.' }),
   await call('setMyName', { name: 'Galaxyme' }),
 ];
 const info = await fetch(`https://api.telegram.org/bot${bot}/getMe`).then(r => r.json());
+// report whether the bot can check channel membership (it has to be an admin there)
+const channel = (await import('node:fs')).readFileSync('wrangler.toml', 'utf8').match(/CHANNEL\s*=\s*"([^"]*)"/)?.[1];
+if (channel) {
+  const me = await fetch(`https://api.telegram.org/bot${bot}/getChatMember`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ chat_id: channel, user_id: Number(bot.split(':')[0]) }) }).then(r => r.json());
+  const st = me.ok ? me.result.status : 'unreachable: ' + me.description;
+  console.log(st === 'administrator' ? `::notice::Bot is admin of ${channel}, membership gate is on` : `::warning::Bot is not an admin of ${channel} (${st}). Mining stays locked until it is.`);
+}
+console.log(`::notice::Mini App ${origin}/`);
 const summary = `### Galaxyme is live\n\n- Mini App: ${origin}/\n- Bot: @${info.result?.username}\n`;
 console.log(summary);
 if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary);

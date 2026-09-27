@@ -28,7 +28,7 @@ jobs:
       - name: Make sure public/index.html is up to date
         run: |
           python3 app/build.py
-          git diff --exit-code public/index.html
+          git diff --exit-code public/index.html src/core.gen.js
 
       - name: Pick a working Cloudflare token
         env:
